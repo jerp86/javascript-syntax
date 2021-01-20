@@ -1,13 +1,29 @@
-const EntityBase = require('./entityBase');
+const assert = require('assert');
+const Employee = require("./employee")
 
-console.log(new EntityBase({
-  name: 'José Eduardo',
-  gender: 'male',
-  age: 34,
-}).name);
+const GENDER = {
+  male: 'male',
+  female: 'female'
+}
 
-console.log(new EntityBase({
-  name: 'Xuxa da Silva',
-  gender: 'female',
-  age: 100,
-}).#name);
+{
+  const employee = new Employee({
+    name: 'Xuxa da Silva',
+    gender: GENDER.female,
+  });
+
+  assert.throws(() => employee.birthYear, { message: 'you must define age first!!' });
+}
+
+{
+  const employee = new Employee({
+    name: 'Joaozinho',
+    age: 20,
+    gender: GENDER.male,
+  });
+
+  assert.deepStrictEqual(employee.name, 'Mr. Joaozinho');
+  assert.deepStrictEqual(employee.age, undefined);
+  assert.deepStrictEqual(employee.gender, undefined);
+  assert.deepStrictEqual(employee.grossPay, 0);
+}
